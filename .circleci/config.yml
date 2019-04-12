@@ -11,7 +11,7 @@ executors:
           RAILS_ENV: test
 
 jobs:
-  build:
+  setup:
     executor: rails-executor
     steps:
       # Pull Repository
@@ -46,3 +46,9 @@ jobs:
           key: yarn-dependencies-{{ checksum "yarn.lock" }}e
           paths:
             - ~/.cache/yarn
+
+workflows:
+  version: 2
+  rails:
+    jobs:
+      - setup
