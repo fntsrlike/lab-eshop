@@ -28,7 +28,7 @@ jobs:
             - ruby-dependencies- # fallback to using the latest cache if no exact match is found
       - run:
           name: install Ruby's dependencies
-          command: bundle check || bundle install
+          command: bundle check || bundle install --path vendor/bundle
       - save_cache:
           key: ruby-dependencies-{{ checksum "Gemfile.lock" }}
           paths:
@@ -43,12 +43,30 @@ jobs:
           name: install JavaScript's dependencies
           command: yarn install --cache-folder ~/.cache/yarn
       - save_cache:
-          key: yarn-dependencies-{{ checksum "yarn.lock" }}e
+          key: yarn-dependencies-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+  test:
+    executor: rails-executor
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - ruby-dependencies-{{ checksum "Gemfile.lock" }}
+            - ruby-dependencies-
+            - yarn-dependencies-{{ checksum "yarn.lock" }}
+            - yarn-dependencies-
+      - run: bundle check || bundle install --path vendor/bundle
+      - run: bin/rails db:create
+      - run: bin/rails db:schema:load
+      - run: bin/rake test
+      - run: bin/rake spec
 
 workflows:
   version: 2
   rails:
     jobs:
       - setup
+      - test:
+          requires:
+            - setup

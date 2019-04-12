@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/mattbrictson/spring.git
+  revision: b91fb9404e82166062cec874cb7581a2e8a9c335
+  branch: honor-bundle-app-config
+  specs:
+    spring (2.0.2)
+      activesupport (>= 4.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -174,8 +182,6 @@ GEM
     selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
-    spring (2.0.2)
-      activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
       spring (>= 1.2, < 3.0)
@@ -224,7 +230,7 @@ DEPENDENCIES
   rspec-rails (~> 3.8)
   sass-rails (~> 5.0)
   selenium-webdriver
-  spring
+  spring!
   spring-watcher-listen (~> 2.0.0)
   sqlite3
   turbolinks (~> 5)
@@ -236,4 +242,4 @@ RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.4
+   1.16.6
