@@ -1,0 +1,48 @@
+version: 2.1
+executors:
+  rails-executor:
+    working_directory: ~/lab-eshop
+    docker:
+      - image: circleci/ruby:2.5-node
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          RAILS_ENV: test
+
+jobs:
+  build:
+    executor: rails-executor
+    steps:
+      # Pull Repository
+      - checkout
+
+      # Report environments
+      - run: ruby -v
+      - run: bundle -v
+
+      # Ruby dependencies
+      - restore_cache:
+          keys:
+            - ruby-dependencies-{{ checksum "Gemfile.lock" }}
+            - ruby-dependencies- # fallback to using the latest cache if no exact match is found
+      - run:
+          name: install Ruby's dependencies
+          command: bundle check || bundle install
+      - save_cache:
+          key: ruby-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      # JS dependencies
+      - restore_cache:
+          keys:
+            - yarn-dependencies-{{ checksum "yarn.lock" }}
+            - yarn-dependencies-
+      - run:
+          name: install JavaScript's dependencies
+          command: yarn install --cache-folder ~/.cache/yarn
+      - save_cache:
+          key: yarn-dependencies-{{ checksum "yarn.lock" }}e
+          paths:
+            - ~/.cache/yarn
