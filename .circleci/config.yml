@@ -1,4 +1,8 @@
 version: 2.1
+
+orbs:
+  heroku: circleci/heroku@0.0.6
+
 executors:
   rails-executor:
     working_directory: ~/lab-eshop
@@ -61,6 +65,12 @@ jobs:
       - run: bin/rails db:schema:load
       - run: bin/rake test
       - run: bin/rake spec
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - heroku/deploy-via-git
 
 workflows:
   version: 2
@@ -70,3 +80,12 @@ workflows:
       - test:
           requires:
             - setup
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+                - deploy # for CI testing
+
