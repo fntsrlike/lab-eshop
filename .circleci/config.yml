@@ -71,6 +71,7 @@ jobs:
       - checkout
       - heroku/install
       - heroku/deploy-via-git
+      - run: heroku run rake db:migrate --app $HEROKU_APP_NAME
 
 workflows:
   version: 2
@@ -88,4 +89,3 @@ workflows:
               only:
                 - master
                 - deploy # for CI testing
-
