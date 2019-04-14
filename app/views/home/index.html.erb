@@ -4,3 +4,15 @@
     It works!
   </p>
 </section>
+<section>
+  <h3>Authentication Panel</h3>
+  <% if current_user %>
+    <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+    |
+    <%= link_to('Modify Password', edit_registration_path(:user)) %>
+  <% else %>
+    <%= link_to('Register', new_registration_path(:user)) %>
+    |
+    <%= link_to('Login', new_session_path(:user)) %>
+  <% end %>
+</section
