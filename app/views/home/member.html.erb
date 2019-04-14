@@ -1,0 +1,22 @@
+<section>
+  <h2>User Panel</h2>
+  <p>
+    This page requires Authentication.
+  </p>
+  <h3>Profiles</h3>
+  <p>
+    <ul>
+      <li>Email: <%= current_user.email %></li>
+    </ul>
+  </p>
+</section>
+<section>
+  <h3>Navigation</h3>
+  <p>
+    <%= link_to('Index', root_path) %>
+    |
+    <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+    |
+    <%= link_to('Modify Password', edit_registration_path(:user)) %>
+  </p>
+</section
