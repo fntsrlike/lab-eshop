@@ -10,6 +10,18 @@
   </head>
 
   <body>
+    <% if notice %>
+      <section class="notice">
+        <h3>NOTICE</h3>
+        <%= notice %>
+      </section>
+    <% end %>
+    <% if alert %>
+      <section class="alert">
+        <h3>ALERT</h3>
+        <%= alert %>
+      </section>
+    <% end %>
     <%= yield %>
   </body>
 </html>
