@@ -20,6 +20,9 @@ test:
   <<: *default
   database: db/test.sqlite3
 
+# Use heroku to deploy. It will automatically generate database.yml file.
+# Ref: https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-rails
 production:
-  <<: *default
-  database: db/production.sqlite3
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
