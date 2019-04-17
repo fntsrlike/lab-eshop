@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_one :shop
+  has_many :providers, foreign_key: "user_id", class_name: "OAuthProvider"
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
