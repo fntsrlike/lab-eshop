@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   get '/shop', to: 'home#shop'
 
   resources :products, only: [:index, :new]
+  resources :orders, only: [:index]
 end
