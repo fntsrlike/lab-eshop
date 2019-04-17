@@ -4,5 +4,5 @@ Rails.application.routes.draw do
 
   root to: "home#index"
 
-  get '/member', to: 'home#member'
+  get '/profiles', to: 'home#profiles'
 end
