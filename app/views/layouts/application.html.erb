@@ -10,18 +10,29 @@
   </head>
 
   <body>
-    <% if notice %>
-      <section class="notice">
-        <h3>NOTICE</h3>
-        <%= notice %>
-      </section>
-    <% end %>
-    <% if alert %>
-      <section class="alert">
-        <h3>ALERT</h3>
-        <%= alert %>
-      </section>
-    <% end %>
-    <%= yield %>
+    <div id="app">
+      <nav>
+        <%= render "shared/navigation" %>
+      </nav>
+      <div class="notification">
+        <% if notice %>
+          <section class="notice">
+            <h3>NOTICE</h3>
+            <%= notice %>
+          </section>
+        <% end %>
+        <% if alert %>
+          <section class="alert">
+            <h3>ALERT</h3>
+            <%= alert %>
+          </section>
+        <% end %>
+      <div>
+      <div clas="content">
+        <%= yield %>
+      </div>
+      <footer>
+      </footer>
+    </div>
   </body>
 </html>

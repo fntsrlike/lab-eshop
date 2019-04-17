@@ -1,0 +1,19 @@
+<div>
+  <span id="nav-common">
+    <%= link_to('Index', root_path) %>
+  </span>
+  <% if user_signed_in? %>
+    <span id="nav-user-only">
+      <%= link_to('Profiles', profiles_path) %>
+      <%= link_to('Shop', shop_path) %>
+      <%= link_to('Products', products_path) %>
+      <%= link_to('Orders', orders_path) %>
+      <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+    </span>
+  <% else %>
+    <span id="nav-guest-only">
+      <%= link_to('Register', new_registration_path(:user)) %>
+      <%= link_to('Login', new_session_path(:user)) %>
+    </span>
+  <% end %>
+</div>
