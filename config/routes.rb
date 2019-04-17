@@ -6,4 +6,6 @@ Rails.application.routes.draw do
 
   get '/profiles', to: 'home#profiles'
   get '/shop', to: 'home#shop'
+
+  resources :products, only: [:index, :new]
 end
