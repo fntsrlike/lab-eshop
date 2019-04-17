@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   root to: "home#index"
 
   get '/profiles', to: 'home#profiles'
+  get '/shop', to: 'home#shop'
 end
