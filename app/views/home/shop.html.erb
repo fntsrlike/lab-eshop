@@ -4,7 +4,10 @@
     <h3>Socail Network Lining</h3>
     <p>
       <ul>
-        <li>Facebook: [show uid if linked, or linking url]</li>
+        <li>
+          Facebook:
+          <%= provider.nil? ? link_to('[To Link]', user_facebook_omniauth_authorize_path) : provider.uid %>
+        </li>
       </ul>
     </p>
   </section>

@@ -1,17 +1,39 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def facebook
-    @user = User.from_omniauth(request.env["omniauth.auth"])
+    auth = request.env["omniauth.auth"]
+    provider = OAuthProvider.from_omniauth(auth)
 
-    if @user.persisted?
-      sign_in_and_redirect @user, event: :authentication
-      set_flash_message(:notice, :success, kind: "Facebook") if is_navigational_format?
+    # Link provider with exist user
+    if user_signed_in?
+      message = linking(current_user, provider)
+      return redirect_to(shop_path, message)
+    end
+
+    # Sign in if provider exists
+    if provider.user.nil?
+      session['devise.facebook_data'] = request.env['omniauth.auth']
+      message = '本身份還沒與使用者綁定，請先創立帳號、或是登入既有的帳號後進行綁定。'
+      redirect_to(new_user_registration_url, notice: message)
     else
-      session["devise.facebook_data"] = request.env["omniauth.auth"]
-      redirect_to new_user_registration_url
+      sign_in_and_redirect(provider.user, event: :authentication)
+      set_flash_message(:notice, :success, kind: 'Facebook') if is_navigational_format?
     end
   end
 
   def failure
-    redirect_to root_path
+    redirect_to new_user_session_path, alert: '無法獲得驗證！'
+  end
+
+  private
+  def linking(user, provider)
+    if provider.user.nil?
+      provider.user = user
+      provider.save
+      message = {notice: '綁定成功！'}
+    elsif provider.user == user
+      message = {notice: '已經綁定過囉！'}
+    else
+      message = {alert: '該身份已經被其他使用者綁定了！請先解除再重新綁定。'}
+    end
   end
 end
