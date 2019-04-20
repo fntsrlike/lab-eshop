@@ -9,4 +9,6 @@ Rails.application.routes.draw do
 
   resources :products, only: [:index, :new]
   resources :orders, only: [:index]
+
+  mount Facebook::Messenger::Server, at: 'bot'
 end
