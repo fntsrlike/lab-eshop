@@ -7,7 +7,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     # Link provider with exist user
     if user_signed_in?
-      message = linking(current_user, provider)
+      message = link(current_user, provider)
       return redirect_to(shop_path, message)
     end
 
@@ -27,7 +27,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   private
-  def linking(user, provider)
+  def link(user, provider)
     if provider.user.nil?
       provider.user = user
       provider.save
