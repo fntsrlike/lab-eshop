@@ -3,6 +3,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     auth = request.env["omniauth.auth"]
     provider = OAuthProvider.from_omniauth(auth)
 
+    update_provider_token(provider, auth['credentials'])
+
     # Link provider with exist user
     if user_signed_in?
       message = linking(current_user, provider)
@@ -35,5 +37,16 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     else
       message = {alert: '該身份已經被其他使用者綁定了！請先解除再重新綁定。'}
     end
+  end
+
+  def update_provider_token(provider, credentials)
+    return unless provider.expired?
+
+    provider.token = credentials['token']
+    provider.expires = credentials['expires']
+    if provider.expires
+      provider.expires_at = Time.at(credentials['expires_at']).to_datetime
+    end
+    provider.save
   end
 end

@@ -12,4 +12,8 @@ class OAuthProvider < ApplicationRecord
   def self.facebook
     where(provider: 'facebook').first
   end
+
+  def expired?
+    expires.nil? || (expires && (expires_at < DateTime.now))
+  end
 end
