@@ -6,6 +6,13 @@ class HomeController < ApplicationController
   def shop
     authenticate_user!
     provider = current_user.providers.facebook
-    render locals: {provider: provider}
+
+    pages = []
+    if !provider.expired? && provider.facebook?
+      graph = Koala::Facebook::API.new(provider.token)
+      pages = graph.get_connections("me", "accounts")
+    end
+
+    render locals: {provider: provider, pages: pages}
   end
 end

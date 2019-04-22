@@ -13,6 +13,10 @@ class OAuthProvider < ApplicationRecord
     where(provider: 'facebook').first
   end
 
+  def facebook?
+    provider == 'facebook'
+  end
+
   def expired?
     expires.nil? || (expires && (expires_at < DateTime.now))
   end

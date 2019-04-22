@@ -11,6 +11,13 @@
           <% else %>
             <%= provider.uid %>
             <%= link_to('[Re-authorize]', user_facebook_omniauth_authorize_path) %>
+            <ul>
+            <% pages.each do |page| %>
+              <li>
+                <%= "#{page['name']} (#{page['id']})"%>
+              </li>
+            <%end %>
+            </ul>
           <% end %>
         </li>
       </ul>
