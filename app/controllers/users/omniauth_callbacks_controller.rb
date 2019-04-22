@@ -32,11 +32,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if provider.user.nil?
       provider.user = user
       provider.save
-      message = {notice: '綁定成功！'}
+      message = {notice: '授權成功！'}
     elsif provider.user == user
-      message = {notice: '已經綁定過囉！'}
+      message = {notice: '已經更新您的授權囉！'}
     else
-      message = {alert: '該身份已經被其他使用者綁定了！請先解除再重新綁定。'}
+      message = {alert: '該身份已經被其他使用者綁定了！請先解除再重新授權與綁定。'}
     end
   end
 

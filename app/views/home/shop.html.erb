@@ -6,7 +6,12 @@
       <ul>
         <li>
           Facebook:
-          <%= provider.nil? ? link_to('[To Link]', user_facebook_omniauth_authorize_path) : provider.uid %>
+          <% if provider.nil? %>
+            <%= link_to('[To Link]', user_facebook_omniauth_authorize_path) %>
+          <% else %>
+            <%= provider.uid %>
+            <%= link_to('[Re-authorize]', user_facebook_omniauth_authorize_path) %>
+          <% end %>
         </li>
       </ul>
     </p>
