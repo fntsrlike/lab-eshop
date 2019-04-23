@@ -15,6 +15,12 @@
             <% pages.each do |page| %>
               <li>
                 <%= "#{page['name']} (#{page['id']})"%>
+                <%= form_tag(subscriptions_path, method: "post") do %>
+                  <%= hidden_field_tag(:provider_id, provider['id']) %>
+                  <%= hidden_field_tag(:oid, page['id']) %>
+                  <%= hidden_field_tag(:name, page['name']) %>
+                  <%= submit_tag(subscriptions.include?(page['id']) ? 'Re-Subscribe' : 'Subscribe') %>
+                <% end %>
               </li>
             <%end %>
             </ul>
