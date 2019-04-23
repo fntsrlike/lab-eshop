@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_17_134431) do
+ActiveRecord::Schema.define(version: 2019_04_23_043254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,9 @@ ActiveRecord::Schema.define(version: 2019_04_17_134431) do
     t.string "uid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "token"
+    t.boolean "expires"
+    t.datetime "expires_at"
     t.index ["user_id"], name: "index_o_auth_providers_on_user_id"
   end
 
@@ -59,6 +62,15 @@ ActiveRecord::Schema.define(version: 2019_04_17_134431) do
     t.index ["user_id"], name: "index_shops_on_user_id"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.bigint "o_auth_provider_id", null: false
+    t.string "name", null: false
+    t.string "oid", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["o_auth_provider_id"], name: "index_subscriptions_on_o_auth_provider_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -74,4 +86,5 @@ ActiveRecord::Schema.define(version: 2019_04_17_134431) do
   add_foreign_key "o_auth_providers", "users"
   add_foreign_key "products", "shops"
   add_foreign_key "shops", "users"
+  add_foreign_key "subscriptions", "o_auth_providers"
 end

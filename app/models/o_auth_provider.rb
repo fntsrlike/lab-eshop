@@ -1,5 +1,6 @@
 class OAuthProvider < ApplicationRecord
   belongs_to :user
+  has_many :subscriptions
 
   validates_presence_of :uid, :provider
   validates_uniqueness_of :uid, :scope => :provider
@@ -11,5 +12,13 @@ class OAuthProvider < ApplicationRecord
 
   def self.facebook
     where(provider: 'facebook').first
+  end
+
+  def facebook?
+    provider == 'facebook'
+  end
+
+  def expired?
+    expires.nil? || (expires && (expires_at < DateTime.now))
   end
 end

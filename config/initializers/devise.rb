@@ -298,5 +298,14 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
 
   # ==> OAuth
-  config.omniauth :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET']
+  config.omniauth :facebook,
+    ENV['FACEBOOK_KEY'],
+    ENV['FACEBOOK_SECRET'],
+    scope: [
+      'email',
+      'manage_pages',
+      'pages_show_list',
+      'pages_messaging',
+      'pages_messaging_subscriptions'
+    ].join(',')
 end
