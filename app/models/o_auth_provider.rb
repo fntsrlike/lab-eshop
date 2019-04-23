@@ -1,5 +1,6 @@
 class OAuthProvider < ApplicationRecord
   belongs_to :user
+  has_many :subscriptions
 
   validates_presence_of :uid, :provider
   validates_uniqueness_of :uid, :scope => :provider
