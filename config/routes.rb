@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   root to: "home#index"
 
   get '/profiles', to: 'home#profiles'
-  get '/shop', to: 'home#shop'
+  get '/shop', to: 'shops#index'
 
   resources :products, only: [:index, :new]
   resources :orders, only: [:index]
