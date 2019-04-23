@@ -3,17 +3,8 @@ class ShopsController < ApplicationController
 
   def index
     provider = current_user.providers.facebook
-    pages = get_pages(provider)
+    pages = FacebookUser.new(provider).pages
 
     render locals: {provider: provider, pages: pages}
-  end
-
-  private
-  def get_pages(provider)
-    if !provider.expired? && provider.facebook?
-      graph = Koala::Facebook::API.new(provider.token)
-      pages = graph.get_connections("me", "accounts")
-    end
-    pages ||= []
   end
 end
