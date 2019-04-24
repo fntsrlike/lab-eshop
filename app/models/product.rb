@@ -4,5 +4,5 @@ class Product < ApplicationRecord
   has_many :orders, through: :ordered_items
 
   validates_presence_of :name, :price
-  validates_format_of :url, with: URI::regexp(%w(http https))
+  validates_format_of :image_url, allow_blank: true, with: URI::regexp(%w(http https))
 end
