@@ -28,7 +28,11 @@
           <td>
             <%= product.description %>
           </td>
-          <td>Edit | Remove</td>
+          <td>
+            <%= link_to('Edit', edit_product_path(product)) %>
+            |
+            Remove
+          </td>
         </tr>
       <% end %>
     </tbody>
