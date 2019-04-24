@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get '/profiles', to: 'home#profiles'
   get '/shop', to: 'shops#index'
 
-  resources :products, only: [:index, :new]
+  resources :products, only: [:index, :new, :create]
   resources :orders, only: [:index]
   resources :subscriptions, only: [:create]
 
