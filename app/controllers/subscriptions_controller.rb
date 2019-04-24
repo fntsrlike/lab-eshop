@@ -25,11 +25,9 @@ class SubscriptionsController < ApplicationController
     end
 
     subscription = provider.subscriptions.where(oid: page['id']).first_or_create
-    if (subscription.name != page['name'])
-      subscription.update(
-        name: page['name']
-      )
-    end
+    subscription.name = page['name']
+    subscription.token = page['access_token']
+    subscription.save if subscription.changed?
 
     message = "成功訂閱粉絲專頁 #{page['name']}！"
     redirect_to(shop_path, notice: message)
@@ -37,7 +35,7 @@ class SubscriptionsController < ApplicationController
 
   private
   def subscription_params
-    params.permit(:provider_id, :oid, :name)
+    params.permit(:provider_id, :oid, :name, :token)
   end
 
   def subscribe_page(page)
