@@ -6,6 +6,7 @@
   <table>
     <thead>
       <tr>
+        <th>Image</th>
         <th>Name</th>
         <th>Price</th>
         <th>Description</th>
@@ -13,12 +14,23 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>ProductA</td>
-        <td>NT$ 100</td>
-        <td>This is a product A.</td>
-        <td>Edit | Remove</td>
-      </tr>
+      <% products.each do |product| %>
+        <tr>
+          <td>
+            <%= image_tag product.image_url if product.image_url %>
+          </td>
+          <td>
+            <%= product.name %>
+          </td>
+          <td>
+            NT$ <%= product.price %>
+          </td>
+          <td>
+            <%= product.description %>
+          </td>
+          <td>Edit | Remove</td>
+        </tr>
+      <% end %>
     </tbody>
   <table>
 </section>
