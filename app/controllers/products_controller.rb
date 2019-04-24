@@ -23,7 +23,7 @@ class ProductsController < ApplicationController
     else
       render(:edit)
     end
-end
+  end
 
   private
   def products_params
