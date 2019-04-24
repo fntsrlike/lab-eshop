@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_23_043254) do
+ActiveRecord::Schema.define(version: 2019_04_24_070252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2019_04_23_043254) do
     t.string "oid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "token"
     t.index ["o_auth_provider_id"], name: "index_subscriptions_on_o_auth_provider_id"
   end
 
