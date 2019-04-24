@@ -7,7 +7,24 @@ Facebook::Messenger.configure do |config|
 end
 
 Bot.on :message do |message|
-  message.reply(
-    text: "Copy ##{message.sender['id']}: #{message.text} "
-  )
+  begin
+    message.reply(
+      text: "Copy: #{message.text}"
+    )
+  rescue => error
+    report_error(error, message)
+  end
+end
+
+def report_error(error, message)
+  puts error.message
+  puts error.backtrace
+
+  if Rails.env.production?
+    reply = 'Oops! Bot has some trouble. We will solve it as soon as possible.'
+  else
+    reply = "An error occurred: #{error.message}"
+  end
+
+  message.reply(text: reply)
 end
