@@ -25,7 +25,7 @@ class ProductsController < ApplicationController
 
   def set_resource
     if params.key?(:id)
-      @resource = Product.find(id: params[:id])
+      @resource = Product.find(params[:id])
     else
       @resource = Product.new
     end
