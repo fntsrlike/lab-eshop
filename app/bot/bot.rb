@@ -8,9 +8,9 @@ end
 
 Bot.on :message do |message|
   begin
-    message.reply(
-      text: "Copy: #{message.text}"
-    )
+    reply = Response.new(message)
+
+    message.reply(reply.copy)
   rescue => error
     report_error(error, message)
   end
