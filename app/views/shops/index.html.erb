@@ -19,6 +19,7 @@
                   <%= hidden_field_tag(:provider_id, provider['id']) %>
                   <%= hidden_field_tag(:oid, page['id']) %>
                   <%= hidden_field_tag(:name, page['name']) %>
+                  <%= hidden_field_tag(:token, page['access_token']) %>
                   <%= submit_tag(subscriptions.include?(page['id']) ? 'Re-Subscribe' : 'Subscribe') %>
                 <% end %>
               </li>
