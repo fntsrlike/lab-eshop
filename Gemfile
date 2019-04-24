@@ -80,3 +80,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Chatbot
 gem 'facebook-messenger'
 gem 'koala'
+
+# Soft Delete
+gem "paranoia"
