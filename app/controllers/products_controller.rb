@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action(:set_resource, only: [:new, :edit, :update])
+  before_action(:set_resource, only: [:new, :edit, :update, :destroy])
 
   def index
     render locals: {products: current_user.shop.products}
@@ -23,6 +23,11 @@ class ProductsController < ApplicationController
     else
       render(:edit)
     end
+  end
+
+  def destroy
+    @resource.destroy
+    redirect_to(products_path, notice: 'Resource was successfully removed.')
   end
 
   private
