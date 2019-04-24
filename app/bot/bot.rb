@@ -9,5 +9,5 @@ end
 Bot.on :message do |message|
   message.reply(
     text: "Copy ##{message.sender['id']}: #{message.text} "
-   )
+  )
 end
