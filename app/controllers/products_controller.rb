@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_user!
   before_action(:set_resource, only: [:new, :edit, :update, :destroy])
 
   def index
