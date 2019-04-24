@@ -1,4 +1,6 @@
 class Product < ApplicationRecord
+  acts_as_paranoid
+
   belongs_to :shop
   has_many :ordered_items
   has_many :orders, through: :ordered_items
