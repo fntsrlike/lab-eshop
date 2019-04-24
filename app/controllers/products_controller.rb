@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user!
   before_action(:set_resource, only: [:new, :edit, :update, :destroy])
+  before_action :validate_ownership!, only: [:edit, :update, :destroy]
 
   def index
     render locals: {products: current_user.shop.products}
@@ -43,5 +44,12 @@ class ProductsController < ApplicationController
     else
       @resource = Product.new
     end
+  end
+
+  def validate_ownership!
+    owner = @resource.shop.user
+    return if owner == current_user
+
+    redirect_to(products_path, alert: 'You are not owner!')
   end
 end
