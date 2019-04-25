@@ -1,6 +1,6 @@
 class PostbacksController < BotController
   def products
-    subscription = Subscription.find_by(oid: message.recipient['id'])
+    subscription = Subscription.find_by(oid: oid)
     products = subscription.shop.products
 
     items = products.map do |product|
