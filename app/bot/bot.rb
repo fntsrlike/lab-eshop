@@ -14,7 +14,7 @@ Bot.on :message do |request|
     when 'ping'
       actions.pong
     else
-      actions.copy
+      actions.greeting
     end
 
     request.reply(response)
