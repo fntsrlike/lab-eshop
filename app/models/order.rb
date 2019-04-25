@@ -28,8 +28,11 @@ class Order < ApplicationRecord
   def caculate_total_cost!
     return unless ordered_at.nil?
 
+    ordered_items.reload
+
     total_cost = 0
     ordered_items.each do |item|
+      next if item.amount < 1
       price = item.product.price
       cost = price * item.amount
       total_cost += cost
