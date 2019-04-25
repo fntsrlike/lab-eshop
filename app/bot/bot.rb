@@ -30,6 +30,8 @@ Bot.on :postback do |request|
     case payload['action']
     when 'PRODUCTS'
       actions.products
+    when 'PURCHASE'
+      actions.purchase
     when 'CART'
       request.reply Response.plain('以下是您以選購的商品：')
     when 'ORDERS'

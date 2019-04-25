@@ -11,7 +11,18 @@ class BotController
     message.reply response
   end
 
+  def user
+    return @user if @user
+
+    @user = @graph.get_object(message.sender['id'])
+  end
+
   def buyer
-    user = @graph.get_object(message.sender['id'])
+    return @buyer if @buyer
+
+    @buyer = Buyer.where(
+      provider: 'facebook',
+      uid: user['id']
+    ).first_or_create
   end
 end
