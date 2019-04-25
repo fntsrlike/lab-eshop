@@ -33,7 +33,7 @@ Bot.on :postback do |request|
     when 'PURCHASE'
       actions.purchase
     when 'CART'
-      request.reply Response.plain('以下是您以選購的商品：')
+      actions.cart
     when 'ORDERS'
       request.reply Response.plain('這裡是您過去的訂單記錄：')
     end

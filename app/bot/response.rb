@@ -1,5 +1,6 @@
 class Response
   attr_reader :message
+  extend ActionView::Helpers::NumberHelper
 
   def self.plain(text)
     {
@@ -63,6 +64,51 @@ class Response
     ]
 
     carousel_item(item, buttons)
+  end
+
+  def self.cart(order)
+    elements = order.ordered_items.map do |item|
+      cart_item(item)
+    end
+    total_cost = number_with_delimiter(order.sum)
+
+    {
+      attachment: {
+        type: 'template',
+        payload: {
+          template_type: 'list',
+          top_element_style: 'compact',
+          elements: elements,
+          "buttons": [
+            {
+              type: 'postback',
+              title: "結帳 (NT$ #{total_cost})",
+              payload: postback_payload('DEAL', order.id)
+            }
+          ]
+        }
+      }
+    }
+  end
+
+  def self.cart_item(ordered_item)
+    product = ordered_item.product
+    amount = ordered_item.amount
+    price = number_with_delimiter(product.price)
+    total_cost = number_with_delimiter(product.price * amount)
+
+    {
+      title: "#{product.name}",
+      subtitle: "已選購 #{amount} 件，每件 NT$ #{price}，共計 NT$ #{total_cost}。",
+      image_url: product.image_url,
+      buttons: [
+        {
+          type: 'postback',
+          title: '撤銷本項商品',
+          payload: postback_payload('FORGOT', product.id)
+        }
+      ]
+    }
   end
 
   def self.postback_payload(action, target_id = nil)

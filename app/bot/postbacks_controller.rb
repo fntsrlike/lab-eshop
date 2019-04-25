@@ -19,6 +19,10 @@ class PostbacksController < BotController
     reply Response.plain("已為您選購：#{product.name}，您目前共選購 #{item.amount} 件。")
   end
 
+  def cart
+    reply Response.cart(buyer.cart)
+  end
+
   private
   def target_id
     payload = JSON.parse(message.payload)
