@@ -25,19 +25,18 @@ end
 
 Bot.on :postback do |request|
   begin
-    payload = JSON.parse(request.payload)
+    actions = PostbacksController.new(request)
 
-    response = case payload['action']
+    payload = JSON.parse(request.payload)
+    case payload['action']
     when 'PRODUCTS'
-      Response.plain('為您展示產品清單：')
+      actions.products
     when 'CART'
-      Response.plain('以下是您以選購的商品：')
+      request.reply Response.plain('以下是您以選購的商品：')
     when 'ORDERS'
-      Response.plain('這裡是您過去的訂單記錄：')
+      request.reply Response.plain('這裡是您過去的訂單記錄：')
     end
   end
-
-  request.reply(response)
 rescue => error
   report_error(error, request)
 end
