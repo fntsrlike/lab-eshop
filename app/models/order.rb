@@ -12,6 +12,10 @@ class Order < ApplicationRecord
     where(ordered_at: nil)
   end
 
+  def remove(product)
+    ordered_items.where(product: product).first.delete
+  end
+
   def size
     ordered_items.size
   end

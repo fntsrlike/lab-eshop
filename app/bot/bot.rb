@@ -34,6 +34,8 @@ Bot.on :postback do |request|
       actions.purchase
     when 'CART'
       actions.cart
+    when 'REMOVE'
+      actions.remove
     when 'ORDERS'
       request.reply Response.plain('這裡是您過去的訂單記錄：')
     end

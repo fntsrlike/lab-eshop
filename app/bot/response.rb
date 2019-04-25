@@ -118,7 +118,7 @@ class Response
         {
           type: 'postback',
           title: '撤銷本項商品',
-          payload: postback_payload('FORGOT', product.id)
+          payload: postback_payload('REMOVE', product.id)
         }
       ]
     }
