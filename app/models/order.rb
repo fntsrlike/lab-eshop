@@ -13,6 +13,9 @@ class Order < ApplicationRecord
     where(ordered_at: nil)
   end
 
+  def self.with_deal
+    where.not(ordered_at: nil)
+  end
   def remove(product)
     ordered_items.where(product: product).first.delete
   end

@@ -39,7 +39,7 @@ Bot.on :postback do |request|
     when 'DEAL'
       actions.deal
     when 'ORDERS'
-      request.reply Response.plain('這裡是您過去的訂單記錄：')
+      actions.orders
     end
   end
 rescue => error

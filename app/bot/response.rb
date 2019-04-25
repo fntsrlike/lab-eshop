@@ -1,6 +1,7 @@
 class Response
   attr_reader :message
   extend ActionView::Helpers::NumberHelper
+  extend ActionView::Helpers::DateHelper
 
   def self.plain(text)
     {
@@ -121,6 +122,48 @@ class Response
           payload: postback_payload('REMOVE', product.id)
         }
       ]
+    }
+  end
+
+  def self.ordered_at(order)
+    time = distance_of_time_in_words(order.ordered_at, DateTime.now)
+    {
+      text: "成交於 #{time}。"
+    }
+  end
+
+  def self.receipt(order)
+    elements = order.ordered_items.map do |item|
+      receipt_item(item)
+    end
+    {
+      attachment: {
+        type: 'template',
+        payload: {
+          template_type: 'receipt',
+          recipient_name: order.recipient,
+          order_number: order.id,
+          currency: 'TWD',
+          payment_method: '<UNDEFINED_PAYMENT>',
+          timestamp: order.ordered_at.to_i,
+          summary:{
+            total_cost: order.sum
+          },
+          elements: elements
+        }
+      }
+    }
+  end
+
+  def self.receipt_item(ordered_item)
+    product = ordered_item.product
+    {
+      title: product.name,
+      subtitle: product.description,
+      quantity: ordered_item.amount,
+      price: product.price,
+      currency: 'TWD',
+      image_url: product.image_url
     }
   end
 

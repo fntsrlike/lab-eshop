@@ -46,6 +46,20 @@ class PostbacksController < BotController
     end
   end
 
+  def orders
+    reply Response.plain('這裡是您最近三筆的訂單記錄：')
+    orders = buyer.orders
+      .with_deal
+      .order('ordered_at DESC')
+      .limit(3)
+      .all
+
+    orders.each do |order|
+      reply Response.ordered_at(order)
+      reply Response.receipt(order)
+    end
+  end
+
   private
   def target_id
     payload = JSON.parse(message.payload)
