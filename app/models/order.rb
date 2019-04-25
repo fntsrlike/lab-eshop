@@ -3,7 +3,8 @@ class Order < ApplicationRecord
   has_many :products, through: :ordered_items
 
   def buy(product)
-    item = item(product)
+    item = find_item_by(product)
+
     item.amount += 1
     item.save
   end
@@ -20,7 +21,7 @@ class Order < ApplicationRecord
     ordered_items.size
   end
 
-  def item(product)
+  def find_item_by(product)
     ordered_items.where(product: product).first_or_create
   end
 

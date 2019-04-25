@@ -14,7 +14,7 @@ class PostbacksController < BotController
   def purchase
     product = Product.find(target_id)
     buyer.cart.buy(product)
-    item = buyer.cart.item(product)
+    item = buyer.cart.find_item_by(product)
 
     reply Response.plain("已為您選購：#{product.name}，您目前共選購 #{item.amount} 件。")
   end
