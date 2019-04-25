@@ -6,13 +6,20 @@ Facebook::Messenger.configure do |config|
   config.provider = MessengerProvider.new
 end
 
-Bot.on :message do |message|
+Bot.on :message do |request|
   begin
-    reply = Response.new(message)
+    actions = MessagesController.new(request)
 
-    message.reply(reply.copy)
+    response = case request.text
+    when 'ping'
+      actions.pong
+    else
+      actions.copy
+    end
+
+    request.reply(response)
   rescue => error
-    report_error(error, message)
+    report_error(error, request)
   end
 end
 

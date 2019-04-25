@@ -1,13 +1,9 @@
 class Response
   attr_reader :message
 
-  def initialize(message)
-    @message = message
-  end
-
-  def copy
+  def self.plain(text)
     {
-      text: "Copy: #{message.text}"
+      text: text
     }
   end
 end
