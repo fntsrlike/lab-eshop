@@ -21,17 +21,17 @@ class MessagesController
       {
         type: 'postback',
         title: '產品清單',
-        payload: 'PRODUCTS'
+        payload: Response.postback_payload('PRODUCTS')
       },
       {
         type: 'postback',
         title: '購物車',
-        payload: 'CART'
+        payload: Response.postback_payload('CART')
       },
       {
         type: 'postback',
         title: '訂單記錄',
-        payload: 'ORDERS'
+        payload: Response.postback_payload('ORDERS')
       }
     ]
 
