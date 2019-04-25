@@ -20,7 +20,19 @@ class PostbacksController < BotController
   end
 
   def cart
-    reply Response.cart(buyer.cart)
+    if buyer.cart.size > 0
+      reply Response.cart(buyer.cart)
+    else
+      reply Response.plain("您的購物車目前沒有商品。")
+    end
+  end
+
+  def remove
+    product = Product.find(target_id)
+    buyer.cart.remove(product)
+
+    reply Response.plain("已為您撤銷：#{product.name}。")
+    cart
   end
 
   private

@@ -12,6 +12,10 @@ class Order < ApplicationRecord
     where(ordered_at: nil)
   end
 
+  def size
+    ordered_items.size
+  end
+
   def item(product)
     ordered_items.where(product: product).first_or_create
   end

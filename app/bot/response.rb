@@ -70,25 +70,38 @@ class Response
     elements = order.ordered_items.map do |item|
       cart_item(item)
     end
-    total_cost = number_with_delimiter(order.sum)
 
-    {
-      attachment: {
-        type: 'template',
-        payload: {
-          template_type: 'list',
-          top_element_style: 'compact',
-          elements: elements,
-          "buttons": [
-            {
-              type: 'postback',
-              title: "結帳 (NT$ #{total_cost})",
-              payload: postback_payload('DEAL', order.id)
-            }
-          ]
+    total_cost = number_with_delimiter(order.sum)
+    deal_button = {
+      type: 'postback',
+      title: "結帳 (NT$ #{total_cost})",
+      payload: postback_payload('DEAL', order.id)
+    }
+
+    if elements.size > 1
+      {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'list',
+            top_element_style: 'compact',
+            elements: elements,
+            "buttons": [deal_button]
+          }
         }
       }
-    }
+    else
+      elements.first[:buttons].push(deal_button)
+      {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: elements
+          }
+        }
+      }
+    end
   end
 
   def self.cart_item(ordered_item)
