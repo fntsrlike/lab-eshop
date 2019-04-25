@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_24_113410) do
+ActiveRecord::Schema.define(version: 2019_04_25_060142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "buyers", force: :cascade do |t|
+    t.string "provider", null: false
+    t.string "uid", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider"], name: "index_buyers_on_provider"
+    t.index ["uid"], name: "index_buyers_on_uid"
+  end
 
   create_table "o_auth_providers", force: :cascade do |t|
     t.bigint "user_id"
@@ -30,7 +39,7 @@ ActiveRecord::Schema.define(version: 2019_04_24_113410) do
   create_table "ordered_items", force: :cascade do |t|
     t.bigint "product_id"
     t.bigint "order_id"
-    t.integer "amount"
+    t.integer "amount", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_ordered_items_on_order_id"
@@ -42,6 +51,13 @@ ActiveRecord::Schema.define(version: 2019_04_24_113410) do
     t.datetime "ordered_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "buyer_id"
+    t.string "recipient"
+    t.string "address"
+    t.datetime "delivered_at"
+    t.bigint "shop_id"
+    t.index ["buyer_id"], name: "index_orders_on_buyer_id"
+    t.index ["shop_id"], name: "index_orders_on_shop_id"
   end
 
   create_table "products", force: :cascade do |t|

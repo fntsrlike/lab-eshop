@@ -1,5 +1,7 @@
 class Response
   attr_reader :message
+  extend ActionView::Helpers::NumberHelper
+  extend ActionView::Helpers::DateHelper
 
   def self.plain(text)
     {
@@ -63,6 +65,106 @@ class Response
     ]
 
     carousel_item(item, buttons)
+  end
+
+  def self.cart(order)
+    elements = order.ordered_items.map do |item|
+      cart_item(item)
+    end
+
+    total_cost = number_with_delimiter(order.sum)
+    deal_button = {
+      type: 'postback',
+      title: "結帳 (NT$ #{total_cost})",
+      payload: postback_payload('DEAL', order.id)
+    }
+
+    if elements.size > 1
+      {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'list',
+            top_element_style: 'compact',
+            elements: elements,
+            "buttons": [deal_button]
+          }
+        }
+      }
+    else
+      elements.first[:buttons].push(deal_button)
+      {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: elements
+          }
+        }
+      }
+    end
+  end
+
+  def self.cart_item(ordered_item)
+    product = ordered_item.product
+    amount = ordered_item.amount
+    price = number_with_delimiter(product.price)
+    total_cost = number_with_delimiter(product.price * amount)
+
+    {
+      title: "#{product.name}",
+      subtitle: "已選購 #{amount} 件，每件 NT$ #{price}，共計 NT$ #{total_cost}。",
+      image_url: product.image_url,
+      buttons: [
+        {
+          type: 'postback',
+          title: '撤銷本項商品',
+          payload: postback_payload('REMOVE', product.id)
+        }
+      ]
+    }
+  end
+
+  def self.ordered_at(order)
+    time = distance_of_time_in_words(order.ordered_at, DateTime.now)
+    {
+      text: "成交於 #{time}。"
+    }
+  end
+
+  def self.receipt(order)
+    elements = order.ordered_items.map do |item|
+      receipt_item(item)
+    end
+    {
+      attachment: {
+        type: 'template',
+        payload: {
+          template_type: 'receipt',
+          recipient_name: order.recipient,
+          order_number: order.id,
+          currency: 'TWD',
+          payment_method: '<UNDEFINED_PAYMENT>',
+          timestamp: order.ordered_at.to_i,
+          summary:{
+            total_cost: order.sum
+          },
+          elements: elements
+        }
+      }
+    }
+  end
+
+  def self.receipt_item(ordered_item)
+    product = ordered_item.product
+    {
+      title: product.name,
+      subtitle: product.description,
+      quantity: ordered_item.amount,
+      price: product.price,
+      currency: 'TWD',
+      image_url: product.image_url
+    }
   end
 
   def self.postback_payload(action, target_id = nil)

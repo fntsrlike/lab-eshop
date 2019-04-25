@@ -5,28 +5,34 @@
       <tr>
         <th>ID</th>
         <th>Buyer</th>
-        <th>Price</th>
         <th>Amount</th>
-        <th>Status</th>
-        <th>Created At</th>
+        <th>Total Cost</th>
+        <th>Delivered At</th>
+        <th>Ordered At</th>
         <th>Manage</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td>Peter Lin</td>
-        <td>NT$ 520</td>
-        <td>
-          <ul>
-            <li>Product A x 3</li>
-            <li>Product B x 1</li>
-          </ul>
-        </td>
-        <td>To Deliver</td>
-        <td>2019-04-17 20:36</td>
-        <td>Edit | Cancel</td>
-      </tr>
+      <% orders.each do |order| %>
+        <tr>
+          <td><%= order.id %></td>
+          <td>
+            <%= "#{order.recipient}" %> <br/>
+            <%= "(#{order.buyer.uid})" %>
+          </td>
+          <td>
+            <ul>
+              <% order.ordered_items.each do |item| %>
+                <li><%= "#{item.product.name} x #{item.amount}" %></li>
+              <% end %>
+            </ul>
+          </td>
+          <td><%= order.sum %></td>
+          <td><%= order.delivered_at %></td>
+          <td><%= order.ordered_at %></td>
+          <td>Deliver!</td>
+        </tr>
+      <% end %>
     </tbody>
   <table>
 </section>
