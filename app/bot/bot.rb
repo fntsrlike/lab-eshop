@@ -33,7 +33,7 @@ Bot.on :postback do |request|
     when 'PURCHASE'
       actions.purchase
     when 'CART'
-      actions.cart
+      actions.show_cart
     when 'REMOVE'
       actions.remove
     when 'DEAL'

@@ -1,9 +1,13 @@
 class BotController
-  attr_reader :message
+  attr_reader :message, :oid, :subscription, :shop
 
   def initialize(message)
     @message = message
     @graph = Koala::Facebook::API.new(message.access_token)
+
+    @oid = message.recipient['id']
+    @subscription = Subscription.find_by(oid: oid)
+    @shop = @subscription.shop
   end
 
   protected
@@ -24,5 +28,9 @@ class BotController
       provider: 'facebook',
       uid: user['id']
     ).first_or_create
+  end
+
+  def cart
+    buyer.cart(shop)
   end
 end

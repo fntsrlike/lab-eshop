@@ -13,15 +13,15 @@ class PostbacksController < BotController
 
   def purchase
     product = Product.find(target_id)
-    buyer.cart.buy(product)
-    item = buyer.cart.find_item_by(product)
+    cart.buy(product)
+    item = cart.find_item_by(product)
 
     reply Response.plain("已為您選購：#{product.name}，您目前共選購 #{item.amount} 件。")
   end
 
-  def cart
-    if buyer.cart.size > 0
-      reply Response.cart(buyer.cart)
+  def show_cart
+    if cart.size > 0
+      reply Response.cart(cart)
     else
       reply Response.plain("您的購物車目前沒有商品。")
     end
@@ -29,16 +29,16 @@ class PostbacksController < BotController
 
   def remove
     product = Product.find(target_id)
-    buyer.cart.remove(product)
+    cart.remove(product)
 
     reply Response.plain("已為您撤銷：#{product.name}。")
     cart
   end
 
   def deal
-    if buyer.cart.size > 0
-      total_cost = buyer.cart.sum
-      buyer.cart.deal!(user['first_name'])
+    if cart.size > 0
+      total_cost = cart.sum
+      cart.deal!(user['first_name'])
       reply Response.plain("已為您結帳，總共是 #{total_cost} 元。")
       reply Response.plain("本機器人尚未實作填寫住址與付費功能，感謝您的試用。")
     else
@@ -50,6 +50,7 @@ class PostbacksController < BotController
     reply Response.plain('這裡是您最近三筆的訂單記錄：')
     orders = buyer.orders
       .with_deal
+      .where(shop: shop)
       .order('ordered_at DESC')
       .limit(3)
       .all
