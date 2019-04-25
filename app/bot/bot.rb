@@ -10,14 +10,13 @@ Bot.on :message do |request|
   begin
     actions = MessagesController.new(request)
 
-    response = case request.text
+    case request.text
     when 'ping'
       actions.pong
     else
       actions.greeting
     end
 
-    request.reply(response)
   rescue => error
     report_error(error, request)
   end

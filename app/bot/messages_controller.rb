@@ -1,22 +1,15 @@
-class MessagesController
-  attr_reader :message
-
-  def initialize(message)
-    @message = message
-    @graph = Koala::Facebook::API.new(message.access_token)
-  end
-
+class MessagesController < BotController
   def copy
     text = "Copy: #{message.text}"
-    Response.plain(text)
+    reply Response.plain(text)
   end
 
   def pong
-    Response.plain('pong')
+    reply Response.plain('pong')
   end
 
   def greeting
-    text = "#{username} 您好，很高興為您服務。請問有什麼需要協助的嗎？"
+    text = "#{buyer['first_name']} 您好，很高興為您服務。請問有什麼需要協助的嗎？"
     buttons = [
       {
         type: 'postback',
@@ -35,12 +28,6 @@ class MessagesController
       }
     ]
 
-    Response.buttons(text, buttons)
-  end
-
-  private
-  def username
-    user = @graph.get_object(message.sender['id'])
-    user['first_name']
+    reply Response.buttons(text, buttons)
   end
 end
