@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_24_113410) do
+ActiveRecord::Schema.define(version: 2019_04_25_015543) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "buyers", force: :cascade do |t|
+    t.string "provider", null: false
+    t.string "uid", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider"], name: "index_buyers_on_provider"
+    t.index ["uid"], name: "index_buyers_on_uid"
+  end
 
   create_table "o_auth_providers", force: :cascade do |t|
     t.bigint "user_id"
@@ -42,6 +51,8 @@ ActiveRecord::Schema.define(version: 2019_04_24_113410) do
     t.datetime "ordered_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "buyer_id"
+    t.index ["buyer_id"], name: "index_orders_on_buyer_id"
   end
 
   create_table "products", force: :cascade do |t|
