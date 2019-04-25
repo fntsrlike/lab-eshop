@@ -25,6 +25,14 @@ class Order < ApplicationRecord
     ordered_items.where(product: product).first_or_create
   end
 
+  def deal!(name, address = nil)
+    caculate_total_cost!
+
+    self.recipient = name
+    self.ordered_at = DateTime.now
+    self.save
+  end
+
   def caculate_total_cost!
     return unless ordered_at.nil?
 

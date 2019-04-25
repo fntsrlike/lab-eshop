@@ -35,6 +35,17 @@ class PostbacksController < BotController
     cart
   end
 
+  def deal
+    if buyer.cart.size > 0
+      total_cost = buyer.cart.sum
+      buyer.cart.deal!(user['first_name'])
+      reply Response.plain("已為您結帳，總共是 #{total_cost} 元。")
+      reply Response.plain("本機器人尚未實作填寫住址與付費功能，感謝您的試用。")
+    else
+      reply Response.plain("您的購物車目前沒有商品。")
+    end
+  end
+
   private
   def target_id
     payload = JSON.parse(message.payload)
