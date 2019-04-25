@@ -3,7 +3,7 @@ class PostbacksController < BotController
     subscription = Subscription.find_by(oid: oid)
     products = subscription.shop.products
 
-    if products.count = 0
+    if products.count == 0
       reply Response.plain('抱歉，本店還未將商品上架。')
     else
       items = products.map do |product|
