@@ -1,19 +1,32 @@
-<div>
-  <span id="nav-common">
-    <%= link_to('Index', root_path) %>
-  </span>
+<ul class="nav">
+  <!-- nav-common -->
+  <li class="nav-item">
+    <%= link_to('Index', root_path, class: 'nav-link') %>
+  </li>
   <% if user_signed_in? %>
-    <span id="nav-user-only">
-      <%= link_to('Profiles', profiles_path) %>
-      <%= link_to('Shop', shop_path) %>
-      <%= link_to('Products', products_path) %>
-      <%= link_to('Orders', orders_path) %>
-      <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
-    </span>
+    <!-- nav-user-only -->
+    <li class="nav-item">
+      <%= link_to('Profiles', profiles_path, class: 'nav-link') %>
+    </li>
+    <li class="nav-item">
+      <%= link_to('Shop', shop_path, class: 'nav-link') %>
+    </li>
+    <li class="nav-item">
+      <%= link_to('Products', products_path, class: 'nav-link') %>
+    </li>
+    <li class="nav-item">
+      <%= link_to('Orders', orders_path, class: 'nav-link') %>
+    </li>
+    <li class="nav-item">
+      <%= link_to('Logout', destroy_user_session_path, :method => :delete, class: 'nav-link') %>
+    </li>
   <% else %>
-    <span id="nav-guest-only">
-      <%= link_to('Register', new_registration_path(:user)) %>
-      <%= link_to('Login', new_session_path(:user)) %>
-    </span>
+    <!-- nav-guest-only -->
+    <li class="nav-item">
+      <%= link_to('Register', new_registration_path(:user), class: 'nav-link') %>
+    </li>
+    <li class="nav-item">
+      <%= link_to('Login', new_session_path(:user), class: 'nav-link') %>
+    </li>
   <% end %>
-</div>
+</ul>

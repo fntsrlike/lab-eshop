@@ -10,26 +10,30 @@
   </head>
 
   <body>
-    <div id="app">
+    <div id="app" class="container">
       <nav>
         <%= render "shared/navigation" %>
       </nav>
       <div class="notification">
         <% if notice %>
-          <section class="notice">
+          <section class="alert alert-warning" role="alert">
             <h3>NOTICE</h3>
             <%= notice %>
           </section>
         <% end %>
         <% if alert %>
-          <section class="alert">
+          <section class="alert alert-danger" role="alert">
             <h3>ALERT</h3>
             <%= alert %>
           </section>
         <% end %>
-      <div>
+      </div>
       <div clas="content">
-        <%= yield %>
+        <div class="row">
+          <div class="col">
+            <%= yield %>
+          </div>
+        </div>
       </div>
       <footer>
       </footer>
