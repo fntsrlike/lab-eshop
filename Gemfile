@@ -86,3 +86,4 @@ gem "paranoia"
 
 # UI
 gem 'bootstrap', '~> 4.3.1'
+gem 'jquery-rails'
