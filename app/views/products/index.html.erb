@@ -1,7 +1,9 @@
 <section>
   <h2>Products</h2>
   <div>
-    <%= link_to('Create Products', new_product_path) %>
+   <%= link_to new_product_path do %>
+      <button type="button" class="btn btn-primary btn-sm">Create Products</button>
+    <% end %>
   </div>
   <table class="table">
     <thead>
