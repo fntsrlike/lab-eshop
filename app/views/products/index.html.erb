@@ -3,21 +3,21 @@
   <div>
     <%= link_to('Create Products', new_product_path) %>
   </div>
-  <table>
+  <table class="table">
     <thead>
       <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Description</th>
-        <th>Manage</th>
+        <th scope="col">Image</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Description</th>
+        <th scope="col">Manage</th>
       </tr>
     </thead>
     <tbody>
       <% products.each do |product| %>
         <tr>
           <td>
-            <%= image_tag product.image_url if product.image_url %>
+            <%= image_tag(product.image_url, class: 'product rounded mx-auto d-block') if product.image_url %>
           </td>
           <td>
             <%= product.name %>
