@@ -1,9 +1,11 @@
 <section>
-  <h2>Products</h2>
-  <div>
-   <%= link_to new_product_path do %>
-      <button type="button" class="btn btn-primary btn-sm">Create Products</button>
+  <h2>Products
+    <%= link_to new_product_path do %>
+      <button type="button" class="btn btn-link btn-sm">Create Products</button>
     <% end %>
+  </h2>
+  <div>
+
   </div>
   <table class="table">
     <thead>
@@ -31,9 +33,13 @@
             <%= product.description %>
           </td>
           <td>
-            <%= link_to('Edit', edit_product_path(product)) %>
-            |
-            <%= link_to('Remove', product, method: :delete, data: { confirm: 'Are you sure?' }) %>
+            <%= link_to('Edit', edit_product_path(product), class: 'btn btn-primary btn-sm') %>
+            <%= link_to('Remove', product,
+                        method: :delete,
+                        data: { confirm: 'Are you sure?' },
+                        class: 'btn btn-danger btn-sm'
+                )
+            %>
           </td>
         </tr>
       <% end %>
