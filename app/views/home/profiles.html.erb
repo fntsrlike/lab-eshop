@@ -6,6 +6,8 @@
     </ul>
   </p>
   <p>
-    <%= link_to('Modify Profiles / Password', edit_registration_path(:user)) %>
+    <%= link_to edit_registration_path(:user) do %>
+      <button type="button" class="btn btn-primary btn-sm">Modify Profiles / Password</button>
+    <% end %>
   </p>
 </section>

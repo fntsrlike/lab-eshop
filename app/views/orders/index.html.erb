@@ -1,15 +1,15 @@
 <section>
   <h2>Orders</h2>
-  <table>
+  <table class="table">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Buyer</th>
-        <th>Amount</th>
-        <th>Total Cost</th>
-        <th>Delivered At</th>
-        <th>Ordered At</th>
-        <th>Manage</th>
+        <th scope="col">ID</th>
+        <th scope="col">Buyer</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Total Cost</th>
+        <th scope="col">Delivered At</th>
+        <th scope="col">Ordered At</th>
+        <th scope="col">Manage</th>
       </tr>
     </thead>
     <tbody>
@@ -28,9 +28,13 @@
             </ul>
           </td>
           <td><%= order.sum %></td>
-          <td><%= order.delivered_at %></td>
-          <td><%= order.ordered_at %></td>
-          <td>Deliver!</td>
+          <td><%= order.delivered_at&.in_time_zone('Taipei')&.to_s(:db) %></td>
+          <td><%= order.ordered_at&.in_time_zone('Taipei')&.to_s(:db) %></td>
+          <td>
+            <button class="btn btn-primary btn-sm" disabled>
+              Deliver
+            </button>
+          </td>
         </tr>
       <% end %>
     </tbody>

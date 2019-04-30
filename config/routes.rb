@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :products
   resources :orders, only: [:index]
-  resources :subscriptions, only: [:create]
+  resources :subscriptions, only: [:create, :destroy]
 
   mount Facebook::Messenger::Server, at: 'bot'
 end
