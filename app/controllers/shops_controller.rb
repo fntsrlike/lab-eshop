@@ -8,7 +8,7 @@ class ShopsController < ApplicationController
     provider = current_user.providers.facebook
     if provider
       pages = FacebookUser.new(provider).pages
-      subscriptions = provider.subscriptions.map { |s| s.oid }
+      subscriptions = Hash[provider.subscriptions.collect { |s| [s.oid , s] } ]
     end
 
     render locals: {provider: provider, pages: pages, subscriptions: subscriptions}

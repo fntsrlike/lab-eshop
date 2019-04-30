@@ -2,12 +2,12 @@ class FacebookUser
 
   def initialize(provider)
     @provider = provider
+    @graph = Koala::Facebook::API.new(@provider.token)
   end
 
   def pages
     if !@provider.expired? && @provider.facebook?
-      graph = Koala::Facebook::API.new(@provider.token)
-      pages = graph.get_connections("me", "accounts")
+      pages = @graph.get_connections("me", "accounts")
     end
     pages ||= []
   end

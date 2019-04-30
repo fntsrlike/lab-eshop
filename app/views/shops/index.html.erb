@@ -1,33 +1,75 @@
 <section>
   <h2>Shop</h2>
-  <section>
-    <h3>Socail Network Lining</h3>
+  <div>
     <p>
-      <ul>
-        <li>
-          Facebook:
-          <% if provider.nil? %>
-            <%= link_to('[To Link]', user_facebook_omniauth_authorize_path) %>
-          <% else %>
-            <%= provider.uid %>
-            <%= link_to('[Re-authorize]', user_facebook_omniauth_authorize_path) %>
-            <ul>
-            <% pages.each do |page| %>
-              <li>
-                <%= "#{page['name']} (#{page['id']})"%>
-                <%= form_tag(subscriptions_path, method: "post") do %>
-                  <%= hidden_field_tag(:provider_id, provider['id']) %>
-                  <%= hidden_field_tag(:oid, page['id']) %>
-                  <%= hidden_field_tag(:name, page['name']) %>
-                  <%= hidden_field_tag(:token, page['access_token']) %>
-                  <%= submit_tag(subscriptions.include?(page['id']) ? 'Re-Subscribe' : 'Subscribe') %>
-                <% end %>
-              </li>
-            <%end %>
-            </ul>
-          <% end %>
-        </li>
-      </ul>
+      目前有提供串接的社交網路服務有：
     </p>
+    <ul>
+      <li>Facebook</li>
+    </ul>
+  </div>
+  <hr/>
+  <section>
+    <section>
+      <h3>
+        Facebook
+        <% unless provider.nil? %>
+          <%= link_to('[Re-authorize]', user_facebook_omniauth_authorize_path, class: 'btn btn-link btn-sm') %>
+          <%= link_to('[Deauthorize]', user_facebook_omniauth_authorize_path,
+                                    method: :delete,
+                                    data: { confirm: '您確定要取消授權嗎？（本功能尚未實作）' },
+                                    class: 'btn btn-link btn-sm text-danger disabled'
+                            )
+                        %>
+        <% end %>
+        <ul>
+      </h3>
+      <div>
+        <% if provider.nil? %>
+          <%= link_to('[To Link]', user_facebook_omniauth_authorize_path, class: 'btn btn-primary') %>
+        <% else %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Facebook ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Manage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% pages.each do |page| %>
+                <tr>
+                  <td>
+                    <%= page['id'] %>
+                  </td>
+                  <td>
+                    <%= page['name'] %>
+                  </td>
+                  <td>
+                    <%= form_tag(subscriptions_path, method: "post") do %>
+                      <%= hidden_field_tag(:provider_id, provider['id']) %>
+                      <%= hidden_field_tag(:oid, page['id']) %>
+                      <%= hidden_field_tag(:name, page['name']) %>
+                      <%= hidden_field_tag(:token, page['access_token']) %>
+                      <% if subscriptions.key?(page['id']) %>
+                        <%= submit_tag('Re-Subscribe', class: 'btn btn-secondary btn-sm') %>
+                        <%= link_to('Unsubscribe', subscriptions[page['id']],
+                                    method: :delete,
+                                    data: { confirm: '您確定要取消訂閱嗎？（本功能尚未實作）' },
+                                    class: 'btn btn-danger btn-sm disabled',
+                            )
+                        %>
+                      <% else %>
+                        <%= submit_tag('Subscribe', class: 'btn btn-primary btn-sm') %>
+                      <% end %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          <table>
+        <% end %>
+      </div>
+    </section>
   </section>
 </section>
