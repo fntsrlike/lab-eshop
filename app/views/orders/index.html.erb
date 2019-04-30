@@ -28,9 +28,13 @@
             </ul>
           </td>
           <td><%= order.sum %></td>
-          <td><%= order.delivered_at %></td>
-          <td><%= order.ordered_at %></td>
-          <td>Deliver!</td>
+          <td><%= order.delivered_at&.in_time_zone('Taipei')&.to_s(:db) %></td>
+          <td><%= order.ordered_at&.in_time_zone('Taipei')&.to_s(:db) %></td>
+          <td>
+            <button class="btn btn-primary btn-sm" disabled>
+              Deliver
+            </button>
+          </td>
         </tr>
       <% end %>
     </tbody>
